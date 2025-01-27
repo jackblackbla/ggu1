@@ -10,11 +10,12 @@ models.Base.metadata.create_all(bind=database.engine)
 app = FastAPI(title="GGU1 Subscription API")
 app.include_router(payment.router)
 
-# CORS 설정
+# CORS 설정 확장
 origins = [
-    "http://localhost:3000",  # React 개발 서버
-    "http://localhost:5173",  # Vite 개발 서버
-]
+    "http://localhost:3000",
+    "http://localhost:8000",
+    "https://api.tosspayments.com"
+];
 
 app.add_middleware(
     CORSMiddleware,

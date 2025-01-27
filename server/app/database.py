@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # DATABASE_URL 형식: mysql+pymysql://username:password@host:port/database_name
-DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://root:root@localhost:3306/ggu1")
+DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://root:@localhost:3306/ggu1")
 
 # 엔진 설정
 engine = create_engine(

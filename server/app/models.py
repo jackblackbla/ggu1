@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Float
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Float, Boolean
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from .database import Base
@@ -30,6 +30,8 @@ class Subscription(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     status = Column(String(20), default=STATUS_PENDING, index=True)
+    monthKey = Column(String(7), nullable=False)  # 형식: 'YYYY-MM'
+    linkSent = Column(Boolean, default=False)
     billing_cycle = Column(String(10), nullable=False, default="MONTHLY")  # MONTHLY/YEARLY
     start_date = Column(DateTime, nullable=False)
     end_date = Column(DateTime, nullable=False)
@@ -59,3 +61,10 @@ class Payment(Base):
 
     # relationships
     subscription = relationship("Subscription", back_populates="payments")
+
+class TelegramLink(Base):
+    __tablename__ = "telegram_links"
+    
+    monthKey = Column(String(7), primary_key=True)  # 형식: 'YYYY-MM'
+    linkUrl = Column(String(255), nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
